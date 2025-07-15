@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Finanzas Personales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <h1>Finanzas Personales</h1>
+    <h2>Saldo actual: ${{ saldo }}</h2>
+
+    <h3>Agregar movimiento</h3>
+    <form method="post">
+        Tipo: 
+        <select name="tipo">
+            <option value="ingreso">Ingreso</option>
+            <option value="gasto">Gasto</option>
+        </select><br>
+        Categoría: <input name="categoria"><br>
+        Descripción: <input name="descripcion"><br>
+        Monto: <input name="monto" type="number" step="0.01"><br>
+        <input type="submit" value="Agregar">
+    </form>
+
+    <h3>Historial</h3>
+    <table border="1">
+        <tr>
+            <th>Fecha</th><th>Tipo</th><th>Categoría</th><th>Descripción</th><th>Monto</th>
+        </tr>
+        {% for _, fila in movimientos.iterrows() %}
+        <tr>
+            <td>{{ fila.Fecha }}</td>
+            <td>{{ fila.Tipo }}</td>
+            <td>{{ fila.Categoria }}</td>
+            <td>{{ fila.Descripcion }}</td>
+            <td>${{ "%.2f"|format(fila.Monto) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
